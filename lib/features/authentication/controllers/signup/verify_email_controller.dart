@@ -44,6 +44,7 @@ class VerifyEmailController extends GetxController {
             title: TTexts.yourAccountCreatedTitle,
             subTitle: TTexts.yourAccountCreatedSubTitle,
             onPressed: () => AuthenticationRepository.instance.screenRedirect(),
+            isLottie: true,
             ));
       }
     });
@@ -58,6 +59,7 @@ class VerifyEmailController extends GetxController {
             title: TTexts.yourAccountCreatedTitle,
             subTitle: TTexts.yourAccountCreatedSubTitle,
             onPressed: () => AuthenticationRepository.instance.screenRedirect(),
+            isLottie: true,
       ));
     }
   }

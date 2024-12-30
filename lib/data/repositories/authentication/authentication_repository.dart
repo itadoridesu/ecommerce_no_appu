@@ -1,4 +1,5 @@
 import 'package:ecommerce_no_shoppu/common/widgets/navigation_menu.dart';
+import 'package:ecommerce_no_shoppu/data/repositories/user/user_repisitory.dart';
 import 'package:ecommerce_no_shoppu/features/authentication/screens/sign_up/verify_email.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/firebase_auth_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/firebase_exception.dart';
@@ -20,6 +21,9 @@ class AuthenticationRepository extends GetxController {
   /// Variables
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
+
+  // Get authenticated user data
+  User? get authUser => _auth.currentUser;
 
   /// Called from main.dart on app launch
   @override
@@ -72,8 +76,7 @@ class AuthenticationRepository extends GetxController {
   /// [EmailAuthentication] - Register
   Future<UserCredential> registerWithEmailAndPassword(String email, String password) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      return await _auth.createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       throw TFirebaseAuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -105,8 +108,49 @@ class AuthenticationRepository extends GetxController {
   }
 
   /// [ReAuthenticate] - Re-authenticate User
+  Future<void> reAuthenticateWithEmailAndPassword(String email, String password) async {
+  try {
+    // Create a credential
+    AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
 
-  /// [EmailAuthentication] - Forgot Password
+    // Re-authenticate
+    await _auth.currentUser!.reauthenticateWithCredential(credential);
+  } on FirebaseAuthException catch (e) {
+    // Handle Firebase authentication errors
+    throw TFirebaseAuthException(e.code).message;
+  } on FirebaseException catch (e) {
+    // Handle general Firebase exceptions
+    throw TFirebaseException(e.code).message;
+  } on FormatException catch (_) {
+    // Handle format exceptions (e.g., invalid email/password format)
+    throw const TFormatException();
+  } on PlatformException catch (e) {
+    // Handle platform-specific exceptions
+    throw TPlatformException(e.code).message;
+  } catch (e) {
+    // Catch any other unexpected errors
+    throw 'Something went wrong. Please try again';
+  }
+}
+
+
+  /// [EmailAuthentication] - Forgot Password*
+  Future<void> sendPasswordRestEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
 
 /* -------------------- Federated Identity & Social Sign-In -------------------- */
 
@@ -163,6 +207,27 @@ class AuthenticationRepository extends GetxController {
   }
 
   /// [DeleteUser] - Remove user authentication and delete Firestore account
+  Future<void> deleteAccount() async {
+  try {
+    await UserRepository.instance.removeUserRecord(_auth.currentUser!.uid);
+
+    // Sign out from Google to clear cached credentials
+    await GoogleSignIn().signOut();
+
+    await _auth.currentUser?.delete();
+  } on FirebaseAuthException catch (e) {
+    throw TFirebaseAuthException(e.code).message;
+  } on FirebaseException catch (e) {
+    throw TFirebaseException(e.code).message;
+  } on FormatException catch (_) {
+    throw const TFormatException();
+  } on PlatformException catch (e) {
+    throw TPlatformException(e.code).message;
+  } catch (e) {
+    throw 'Something went wrong. Please try again';
+  }
+}
+
 }
 
 

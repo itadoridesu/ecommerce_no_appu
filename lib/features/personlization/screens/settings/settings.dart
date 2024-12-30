@@ -4,7 +4,7 @@ import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/curved_edges/cu
 import 'package:ecommerce_no_shoppu/common/widgets/list_tiles/settings_tile.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/list_tiles/user_profile.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';
-import 'package:ecommerce_no_shoppu/data/repositories/authentication/authentication_repository.dart';
+import 'package:ecommerce_no_shoppu/features/authentication/controllers/login/login_controller.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/screens/address/address.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/screens/order/orders.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/screens/profile/profile.dart';
@@ -19,6 +19,8 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -135,7 +137,7 @@ class SettingsScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                        onPressed: () => AuthenticationRepository.instance.logout(), child: const Text('Logout')),
+                        onPressed: () => controller.logoutWarningPopup(context), child: const Text('Logout')),
                   ), // SizedBox
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],

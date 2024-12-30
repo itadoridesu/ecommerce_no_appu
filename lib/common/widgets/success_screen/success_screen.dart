@@ -6,15 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class SuccessScreen extends StatelessWidget {
-  const SuccessScreen({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.subTitle,
-    this.onPressed,
-  });
+  const SuccessScreen(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.subTitle,
+      this.onPressed,
+      this.isLottie = false});
 
   final String image, title, subTitle;
+  final bool isLottie;
   final VoidCallback? onPressed;
 
   @override
@@ -26,9 +27,11 @@ class SuccessScreen extends StatelessWidget {
           child: Column(
             children: [
               /// Image
-              Lottie.asset(image, width: THelperFunctions.screenWidth() * 0.85),
+              isLottie
+                  ? Lottie.asset(image, width: THelperFunctions.screenWidth() * 0.85)
+                  : Image.asset(image, width: THelperFunctions.screenWidth() * 0.85),
               const SizedBox(height: TSizes.spaceBtwSections),
-              
+
               /// Title & Subtitle
               Text(
                 title,
@@ -36,14 +39,14 @@ class SuccessScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: TSizes.spaceBtwItems),
-              
+
               Text(
                 subTitle,
                 style: Theme.of(context).textTheme.labelMedium,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
-              
+
               /// Button
               SizedBox(
                 width: double.infinity,

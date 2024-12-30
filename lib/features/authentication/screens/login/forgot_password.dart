@@ -1,15 +1,19 @@
-import 'package:ecommerce_no_shoppu/features/authentication/screens/login/reset_password.dart';
+import 'package:ecommerce_no_shoppu/features/authentication/controllers/forget_password/forget_password.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/text_strings.dart';
+import 'package:ecommerce_no_shoppu/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ForgotPassword extends StatelessWidget {
   const ForgotPassword({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
+
+    final controller = Get.put(ForgetPasswordController());
+
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -30,10 +34,15 @@ class ForgotPassword extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections * 2),
             
             /// Text field
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: TTexts.email, 
-                prefixIcon: Icon(Iconsax.direct_right),
+            Form(
+              key: controller.forgetPasswordFormKey,
+              child: TextFormField(
+                controller: controller.email,
+                validator: TValidator.validateEmail,
+                decoration: const InputDecoration(
+                  labelText: TTexts.email, 
+                  prefixIcon: Icon(Iconsax.direct_right),
+                ),
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
@@ -42,13 +51,13 @@ class ForgotPassword extends StatelessWidget {
             SizedBox(
               width: double.infinity, 
               child: ElevatedButton(
-                onPressed: () => Get.off(() => const ResetPassword()),
+                onPressed: () => controller.sendPasswordResetEmail(),
                 child: const Text(TTexts.submit), // Replace with the actual text variable for the button
               ),
             ),
-          ], // Column children
+          ], 
         ),
-      ), // Padding
-    ); // Scaffold
+      ), 
+    ); 
   }
 }

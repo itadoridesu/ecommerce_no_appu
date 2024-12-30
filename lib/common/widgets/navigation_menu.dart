@@ -40,10 +40,11 @@ class NavigationMenu extends StatelessWidget {
 }
 
 class BottomNavigationController extends GetxController {
+  static BottomNavigationController get instace => Get.find();
 
   final Rx<int> selectedIndex = 0.obs;
 
-  final List<Widget> screens = [HomeScreen(), const StoreScreen(), const FavouriteScreen(), const SettingsScreen()];
+  final List<Widget> screens = [const HomeScreen(), const StoreScreen(), const FavouriteScreen(), const SettingsScreen()];
 }
 
 
