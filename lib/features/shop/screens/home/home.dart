@@ -8,7 +8,6 @@ import 'package:ecommerce_no_shoppu/features/shop/screens/all_products/all_produ
 import 'package:ecommerce_no_shoppu/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/home/widgets/promo_slider.dart';
-import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -71,13 +70,7 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
                 children: [
-                  const PromoSlider(
-                    banners:  [
-                      TImages.promoBanner1,
-                      TImages.promoBanner2,
-                      TImages.promoBanner3
-                    ],
-                  ),
+                  const PromoSlider(),
                   const SizedBox(
                     height: TSizes.spaceBtwSections,
                   ),

@@ -7,7 +7,7 @@ class SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title, subTitle;
   final Widget? trailing;
-  final onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,7 @@ import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/sear
 import 'package:ecommerce_no_shoppu/common/widgets/layouts/grid_layout.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/brands/brand_card.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/category_controller.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/brand/all_brands.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/store/widgets/category_tab.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
@@ -19,9 +20,10 @@ class StoreScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final categories = CategoryController.instance.featuredCategories;
 
     return DefaultTabController(
-      length: 5,
+      length: categories.length,
       child: Scaffold(
         appBar: CustomAppBar(
           title: Text(
@@ -76,35 +78,17 @@ class StoreScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SliverAppBar(
+              SliverAppBar(
                   automaticallyImplyLeading: false,
                   pinned: true,
                   floating: true,
                   toolbarHeight: 0,
-                  bottom: CustomTabBar(tabs: [
-                    Tab(
-                      child: Text('Sports'),
-                    ),
-                    Tab(
-                      child: Text('Furniture'),
-                    ),
-                    Tab(
-                      child: Text('Electronics'),
-                    ),
-                    Tab(
-                      child: Text('Clothes'),
-                    ),
-                    Tab(
-                      child: Text('Cosmetics'),
-                    ),
-                  ]))
+                  bottom: CustomTabBar(tabs: categories.map((category) => Tab(child: Text(category.name))).toList())
+                  )
             ];
           },
-          body: const TabBarView(
-            children: [
-              CategoryTab(), CategoryTab(), CategoryTab(), CategoryTab(), CategoryTab()
-
-            ],
+          body: TabBarView(
+            children: categories.map((category) => CategoryTab(categoryModel: category)).toList(),
           ),
         ),
       ),

@@ -8,8 +8,8 @@ import 'package:ecommerce_no_shoppu/utils/constants/text_strings.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

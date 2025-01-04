@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/shimmers/custom_shimmer_effect.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ class RoundedImage extends StatelessWidget {
     this.applyImageRadius = true,
     this.border,
     this.backgroundColor = TColors.light,
-    this.fit = BoxFit.contain ,
+    this.fit = BoxFit.contain,
     this.padding,
     this.isNetworkImage = false,
     this.onPressed,
@@ -46,12 +48,17 @@ class RoundedImage extends StatelessWidget {
           borderRadius: applyImageRadius
               ? BorderRadius.circular(borderRadius)
               : BorderRadius.zero,
-          child: Image(
-            fit: fit,
-            image: isNetworkImage
-                ? NetworkImage(imageUrl)
-                : AssetImage(imageUrl) as ImageProvider,
-          ),
+          child: isNetworkImage
+              ? CachedNetworkImage(
+                  fit: fit,
+                  imageUrl: imageUrl,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => const CustomShimmerEffect(width: double.infinity, height: 190, radius: 16),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+              : Image(
+                  fit: fit,
+                  image: AssetImage(imageUrl),
+                ),
         ),
       ),
     );

@@ -1,10 +1,10 @@
 import 'package:ecommerce_no_shoppu/data/repositories/authentication/authentication_repository.dart';
 import 'package:ecommerce_no_shoppu/data/repositories/user/user_repisitory.dart';
 import 'package:ecommerce_no_shoppu/features/authentication/screens/login/login.dart';
+import 'package:ecommerce_no_shoppu/features/personlization/models/user_model.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/screens/profile/widgets/re_auth_user_login_form.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
-import 'package:ecommerce_no_shoppu/utils/exceptions/firebase_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/helper_functions.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/network_manager.dart';
 import 'package:ecommerce_no_shoppu/utils/popups/full_screen_loder.dart';
@@ -55,6 +55,7 @@ class UserController extends GetxController {
 
       if (user.value.id.isEmpty) {
         if (userCredentials != null) {
+          print("google save user");
           // Convert name to first and last name
           final nameParts = UserModel.nameParts(userCredentials.user!.displayName ?? '');
           final username = UserModel.generateUsername(userCredentials.user!.displayName ?? '');

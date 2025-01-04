@@ -64,7 +64,7 @@ class login_form extends StatelessWidget {
                   ],
                 ),
                 TextButton(
-                  onPressed: () => Get.to(() => const ForgotPassword()),
+                  onPressed: () => Get.to(() => const ForgotPasswordScreen()),
                   child: const Text(TTexts.forgetPassword),
                 ), // Row
               ],
@@ -87,7 +87,7 @@ class login_form extends StatelessWidget {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  Get.to(() => const SignUp());
+                  Get.to(() => const SignUpScreen());
                 },
                 child: const Text(TTexts.createAccount),
               ),

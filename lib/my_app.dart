@@ -1,4 +1,5 @@
 import 'package:ecommerce_no_shoppu/bindings/general_bindings.dart';
+import 'package:ecommerce_no_shoppu/routes/app_routes.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
 import 'package:ecommerce_no_shoppu/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       initialBinding: GeneralBindings(),
+      getPages: AppRoutes.pages,
       home: const Scaffold(backgroundColor: TColors.primary, body: Center(child: CircularProgressIndicator(color: Colors.white,),),),
 
     );

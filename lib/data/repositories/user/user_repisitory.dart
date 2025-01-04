@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_no_shoppu/data/repositories/authentication/authentication_repository.dart';
+import 'package:ecommerce_no_shoppu/features/personlization/models/user_model.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/firebase_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/format_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/platform_exception.dart';

@@ -118,7 +118,6 @@ class LoginController extends GetxController {
 
   /// Logout Warning
 void logoutWarningPopup(BuildContext context) {
-  print("ROOOOOOOO GOO OUT");
   showDialog(
     context: context,
     builder: (BuildContext context) {

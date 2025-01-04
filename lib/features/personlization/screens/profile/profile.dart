@@ -1,4 +1,4 @@
-import 'package:ecommerce_no_shoppu/common/styles/custom_shimmer_effect.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/shimmers/custom_shimmer_effect.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/app_bar/appbar.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/circular_image.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';

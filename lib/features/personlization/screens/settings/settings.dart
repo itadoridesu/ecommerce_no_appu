@@ -8,6 +8,7 @@ import 'package:ecommerce_no_shoppu/features/authentication/controllers/login/lo
 import 'package:ecommerce_no_shoppu/features/personlization/screens/address/address.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/screens/order/orders.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/screens/profile/profile.dart';
+import 'package:ecommerce_no_shoppu/features/personlization/screens/settings/upload_data.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
@@ -106,10 +107,12 @@ class SettingsScreen extends StatelessWidget {
 
                   const SizedBox(height: TSizes.spaceBtwItems),
 
-                  const SettingsTile(
+                  SettingsTile(
                       icon: Iconsax.document_upload,
                       title: 'Load Data',
-                      subTitle: 'Upload Data to your Cloud Firebase'),
+                      subTitle: 'Upload Data to your Cloud Firebase',
+                      onTap: () => Get.to(() => const UploadDataScreen(),),
+                    ),
                   SettingsTile(
                     icon: Iconsax.location,
                     title: 'Geolocation',
@@ -138,7 +141,7 @@ class SettingsScreen extends StatelessWidget {
                     width: double.infinity,
                     child: OutlinedButton(
                         onPressed: () => controller.logoutWarningPopup(context), child: const Text('Logout')),
-                  ), // SizedBox
+                  ), 
                   const SizedBox(height: TSizes.spaceBtwSections),
                 ],
               ),
@@ -149,3 +152,4 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+

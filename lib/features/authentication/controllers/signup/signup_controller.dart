@@ -1,7 +1,7 @@
 import 'package:ecommerce_no_shoppu/data/repositories/authentication/authentication_repository.dart';
 import 'package:ecommerce_no_shoppu/data/repositories/user/user_repisitory.dart';
 import 'package:ecommerce_no_shoppu/features/authentication/screens/sign_up/verify_email.dart';
-import 'package:ecommerce_no_shoppu/utils/exceptions/firebase_exception.dart';
+import 'package:ecommerce_no_shoppu/features/personlization/models/user_model.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/network_manager.dart';
 import 'package:ecommerce_no_shoppu/utils/popups/full_screen_loder.dart';
 import 'package:ecommerce_no_shoppu/utils/popups/loader.dart';
@@ -75,6 +75,8 @@ class SignupController extends GetxController {
       final userRepository = Get.put(UserRepository());
       userRepository.saveUserRecord(newUser);
 
+      print("sign in user saved");
+
       // Remove Loader
       TFullScreenLoader.stopLoading();
 
@@ -85,7 +87,7 @@ class SignupController extends GetxController {
       );
 
       // Move to Verify Email Screen
-      Get.to(() => VerifyEmail(email: email.text.trim()));
+      Get.to(() => VerifyEmailScreen(email: email.text.trim()));
 
 
     } catch (e) {

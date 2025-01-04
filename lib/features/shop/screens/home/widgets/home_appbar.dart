@@ -1,4 +1,4 @@
-import 'package:ecommerce_no_shoppu/common/styles/custom_shimmer_effect.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/shimmers/custom_shimmer_effect.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/app_bar/appbar.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/cart/cart_menu_icon.dart';
 import 'package:ecommerce_no_shoppu/features/personlization/controllers/user_controller.dart';
@@ -30,7 +30,7 @@ class HomeAppBar extends StatelessWidget {
               if(controller.profileLoading.value){
                 return const CustomShimmerEffect(width: 80, height: 15);
               } else {
-                return Text(controller.user.value.fullName,style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: TColors.white));
+                return Text(controller.user.value.fullName, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: TColors.white));
               }
             }
           ),
