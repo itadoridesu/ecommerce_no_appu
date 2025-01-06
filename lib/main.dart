@@ -12,6 +12,8 @@ Future<void> main() async {
   // Widgets Binding
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
+
+
   //Init Local Storage
   await GetStorage.init();
 

@@ -2,6 +2,7 @@ import 'package:ecommerce_no_shoppu/common/widgets/brands/brand_show_case.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/layouts/grid_layout.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/product_cards/product_cart_vertical.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/product/product_controller.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/category_model.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
@@ -16,6 +17,7 @@ class CategoryTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final products = ProductController.instance.featuredProducts;
     return Padding(
       padding: const EdgeInsets.all(24),
       child: ListView(
@@ -33,7 +35,7 @@ class CategoryTab extends StatelessWidget {
             
             const SizedBox(height: TSizes.spaceBtwItems,),
             
-            GridLayout(itemCount: 4, itemBuilder: (_, index) => const ProductCardVertical(), mainAxisExtent: 288,),
+            GridLayout(itemCount: products.length, itemBuilder: (_, index) => ProductCardVertical(productModel: products[index]), mainAxisExtent: 288,),
             const SizedBox(height: TSizes.spaceBtwSections,)
           ],
         ),]

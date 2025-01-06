@@ -3,6 +3,8 @@ import 'package:ecommerce_no_shoppu/common/widgets/images/circular_image.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/brand_title_with_verification.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_price_text.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_title.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/product/product_controller.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/enums.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
@@ -11,11 +13,15 @@ import 'package:ecommerce_no_shoppu/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 
 class ProductMetaData extends StatelessWidget {
-  const ProductMetaData({super.key});
+  const ProductMetaData({super.key, required this.productModel});
+
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
   final dark = THelperFunctions.isDarkMode(context);
+  final controller = ProductController.instance;
+  final salesPercentage = controller.calculateSalePercentage(productModel.price, productModel.salePrice);
 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +38,7 @@ class ProductMetaData extends StatelessWidget {
               vertical: TSizes.xs,
             ),
             child: Text(
-              '25%',
+              '$salesPercentage%',
               style: Theme.of(context)
                   .textTheme
                   .labelLarge!
@@ -42,22 +48,19 @@ class ProductMetaData extends StatelessWidget {
           const SizedBox(width: TSizes.spaceBtwItems),
 
           /// Price
-          Text(
-            '\$250',
-            style: Theme.of(context).textTheme.titleSmall!.apply(
-                  decoration: TextDecoration.lineThrough,
-                ),
-          ),
+          if(productModel.productType == ProductType.single.toString() && productModel.salePrice > 0)
+          Text('\$${controller.getProductPrice(productModel)}',style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough,),),
+          if(productModel.productType == ProductType.single.toString() && productModel.salePrice > 0) 
           const SizedBox(width: TSizes.spaceBtwItems),
 
           /// Discounted Price
-          const ProductPriceText(price: '175', isLarge: true),
+          ProductPriceText(price: controller.getProductPrice(productModel), isLarge: true),
         ],
       ), // Row
       const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
       // Title
-      const ProductTitleText(title: 'Green Nike Sports Shirt',),
+      ProductTitleText(title: productModel.title,),
       const SizedBox(height: TSizes.spaceBtwItems / 2,),
 
       // Stack Status
@@ -65,7 +68,7 @@ class ProductMetaData extends StatelessWidget {
         children: [
           const ProductTitleText(title: 'Status',),
           const SizedBox(width: TSizes.spaceBtwItems),
-          Text('In Stack', style: Theme.of(context).textTheme.titleMedium,),
+          Text(controller.getProductStockStatus(productModel.stock), style: Theme.of(context).textTheme.titleMedium,),
 
         ],
       ),
@@ -75,12 +78,12 @@ class ProductMetaData extends StatelessWidget {
       Row(
         children: [
           CircularImage(
-            image: TImages.shoeIcon,
+            image: TImages.clothIcon,
             height: 32,
             width: 32,
             overlayColor: dark ? TColors.white : TColors.black,
             ),
-          const BrandTitleWithVerification(title: 'Nike', brandTextSize: TextSizes.medium),
+          BrandTitleWithVerification(title: productModel.brand != null ? productModel.brand!.name : '', brandTextSize: TextSizes.medium),
         ],
       )
     ],

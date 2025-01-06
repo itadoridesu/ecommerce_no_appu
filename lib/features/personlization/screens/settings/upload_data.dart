@@ -18,6 +18,10 @@ class UploadDataScreen extends StatelessWidget {
     // final banners = ADummyData.banners;
     // final bannersController = Get.put(BannerRepository());
 
+    /// Products
+    // final products = ADummyData.products;
+    // final productController = Get.put(ProductRepository());
+
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Upload Dummy Data',
@@ -53,7 +57,9 @@ class UploadDataScreen extends StatelessWidget {
                   DummyDataTile(
                     icon: Iconsax.shopping_bag,
                     title: 'Upload Products',
-                    onPressed: () {},
+                    onPressed: () {
+                        // productController.uploadDummyData(products);
+                    },
                   ),
                   DummyDataTile(
                     icon: Iconsax.document,

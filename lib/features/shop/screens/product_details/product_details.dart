@@ -1,10 +1,12 @@
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_details/widgets/bottom_add_to_cart.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_details/widgets/product_attributes.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_details/widgets/product_image_slider.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_details/widgets/product_meta.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_details/widgets/ratings_share_widget.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_reviews/product_reviews_screen.dart';
+import 'package:ecommerce_no_shoppu/utils/constants/enums.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +14,9 @@ import 'package:iconsax/iconsax.dart';
 import 'package:readmore/readmore.dart';
 
 class ProductDetailsScrenn extends StatelessWidget {
-  const ProductDetailsScrenn({super.key});
+  const ProductDetailsScrenn({super.key, required this.productModel});
+
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class ProductDetailsScrenn extends StatelessWidget {
         child: Column(
           children: [
             // Product Image Slider
-            const ProductImageSlider(),
+            ProductImageSlider(productModel: productModel,),
 
             /// 2-Product Details
             Padding(
@@ -37,13 +41,11 @@ class ProductDetailsScrenn extends StatelessWidget {
                   const RatingsAndShare(),
 
                   // Price, Title, Stack & Brand
-                  const ProductMetaData(),
+                  ProductMetaData(productModel: productModel,),
 
                   // Attributes
-                  const ProductAttributes(),
-                  const SizedBox(
-                    height: TSizes.spaceBtwItems,
-                  ),
+                  if(productModel.productType == ProductType.variable.toString()) ProductAttributes(productModel: productModel,),
+                  if(productModel.productType == ProductType.variable.toString()) const SizedBox(height: TSizes.spaceBtwItems,) else const SizedBox(height: 10,),
 
                   // CheckOut Button
                   SizedBox(
@@ -63,17 +65,15 @@ class ProductDetailsScrenn extends StatelessWidget {
                   const SizedBox(
                     height: TSizes.spaceBtwItems,
                   ),
-                  const ReadMoreText(
-                    'This is a Product description for Blue Nike Sleeveless vest. There are more things that can be added but i am berii happii desu yo! ',
+                  ReadMoreText(
+                    productModel.description ?? 'HOHO no descurippushun desu :(',
                     trimLines: 2,
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Show more',
                     trimExpandedText: 'Show less',
-                    moreStyle:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                    lessStyle:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-                  ), // ReadMoreText
+                    moreStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                    lessStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+                  ), 
 
                   // Reviews
                   const SizedBox(
@@ -103,3 +103,4 @@ class ProductDetailsScrenn extends StatelessWidget {
     );
   }
 }
+

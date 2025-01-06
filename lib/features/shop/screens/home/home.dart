@@ -3,7 +3,9 @@ import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/curved_edges/cu
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/search_bar_container.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/layouts/grid_layout.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/product_cards/product_cart_vertical.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/shimmers/vertical_product_shimmer.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/product/product_controller.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/all_products/all_products.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/home/widgets/home_categories.dart';
@@ -17,6 +19,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductController());
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -80,7 +83,14 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwItems,),
 
                   /// -- Popular Products 
-                  GridLayout(itemCount: 4, itemBuilder: (_, index) => const ProductCardVertical(), mainAxisExtent: 288,), // GridView.builder
+                  Obx(() {
+
+                    if(controller.isLoading.value) return const VerticalProductShimmer();
+
+                    if(controller.featuredProducts.isEmpty) return Center(child: Text('No data found', style: Theme.of(context).textTheme.bodyMedium,));
+
+                    return GridLayout(itemCount: controller.featuredProducts.length, itemBuilder: (_, index) => ProductCardVertical(productModel: controller.featuredProducts[index]), mainAxisExtent: 288,);
+                  }), // GridView.builder
                 ],
               ),
             ),

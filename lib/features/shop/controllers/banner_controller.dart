@@ -1,5 +1,5 @@
 import 'package:ecommerce_no_shoppu/data/repositories/banners/banners_repository.dart';
-import 'package:ecommerce_no_shoppu/features/shop/models/brand_model.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/banner_model.dart';
 import 'package:ecommerce_no_shoppu/utils/popups/loader.dart';
 import 'package:get/get.dart';
 

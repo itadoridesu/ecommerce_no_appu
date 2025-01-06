@@ -1,40 +1,59 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class BannerModel {
+class BrandModel {
   String id;
-  String imageUrl;
-  final String targetScreen;
-  final bool active;
+  String name;
+  String image;
+  bool? isFeatured;
+  int? productsCount;
 
-  // Constructor
-  BannerModel({
-    required this.id,
-    required this.imageUrl,
-    required this.targetScreen,
-    required this.active,
-  });
+  BrandModel({
+      required this.id,
+      required this.image,
+      required this.name,
+      this.isFeatured,
+      this.productsCount
+    });
 
-  // Convert BannerModel to a JSON map (for saving to Firebase or other storage)
+  /// Empty Helper Function
+  static BrandModel empty() => BrandModel(id: '', image: '', name: '');
+
   Map<String, dynamic> toJson() {
     return {
-      'ImageUrl': imageUrl,
-      'TargetScreen': targetScreen,
-      'Active': active,
+      'Id': id,
+      'Name': name,
+      'Image': image,
+      'ProductsCount': productsCount,
+      'IsFeatured': isFeatured,
     };
   }
 
-  /// Empty Helper Function
-  static BannerModel empty() => BannerModel(id: '', imageUrl: '', targetScreen: '', active: false);
-
-
-  // Convert Firestore document snapshot to BannerModel
-  factory BannerModel.fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
-    return BannerModel(
-      id: snapshot.id,
-      imageUrl: data['ImageUrl'] ?? '',
-      targetScreen: data['TargetScreen'] ?? '',
-      active: data['Active'] ?? false,
+  /// Map Json oriented document snapshot from any data in json format to UserModel
+  factory BrandModel.fromJson(Map<String, dynamic> document) {
+    final data = document;
+    if (data.isEmpty) return BrandModel.empty();
+    return BrandModel(
+      id: data['Id'] ?? '',
+      name: data['Name'] ?? '',
+      image: data['Image'] ?? '',
+      isFeatured: data['IsFeatured'] ?? false,
+      productsCount: int.parse((data['ProductsCount'] ?? 0).toString()),
     );
+  }
+
+  /// Map Json oriented document snapshot from Firebase to UserModel
+  factory BrandModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
+    if (document.data() != null) {
+      final data = document.data()!;
+      // Map JSON Record to the Model
+      return BrandModel(
+        id: document.id,
+        name: data['Name'] ?? '',
+        image: data['Image'] ?? '',
+        isFeatured: data['IsFeatured'] ?? false,
+        productsCount: int.parse((data['ProductsCount'] ?? 0).toString()),
+      );
+    }
+    return BrandModel.empty();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:ecommerce_no_shoppu/common/widgets/layouts/grid_layout.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/product_cards/product_cart_vertical.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -40,7 +41,7 @@ class SortableProducts extends StatelessWidget {
         /// Products
         GridLayout(
           itemCount: 10, // Provide the total number of items
-          itemBuilder: (_, index) => const ProductCardVertical(),
+          itemBuilder: (_, index) => ProductCardVertical(productModel: ProductModel.empty(),),
           mainAxisExtent: 288,
         ),
       ],

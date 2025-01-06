@@ -1,23 +1,27 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/app_bar/appbar.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/curved_edges/curved_edges.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/icons/circular_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/rounded_image.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/product/image_controller.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
-import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ProductImageSlider extends StatelessWidget {
-  const ProductImageSlider({
-    super.key,
-  });
+  const ProductImageSlider({super.key, required this.productModel});
 
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final controller = Get.put(ImagesController());
+    final images = controller.getAllProductImages(productModel);
 
     return ClipPath(
       clipper: CustomCurvedEdges(),
@@ -26,17 +30,29 @@ class ProductImageSlider extends StatelessWidget {
         child: Stack(
           children: [
             /// Main Large Image
-            const SizedBox(
+            SizedBox(
               height: 400,
               child: Padding(
-                padding: EdgeInsets.all(TSizes.productImageRadius * 2),
+                padding: const EdgeInsets.all(TSizes.productImageRadius * 2),
                 child: Center(
-                  child:
-                      Image(image: AssetImage(TImages.productImage5)),
+                  child: Obx(() {
+                    final image = controller.selectedProductImage.value;
+                    return GestureDetector(
+                      onTap: () => controller.showEnlargedImage(image),
+                      child: CachedNetworkImage(
+                        imageUrl: image,
+                        progressIndicatorBuilder: (_, __, downloadProgress) =>
+                            CircularProgressIndicator(
+                          value: downloadProgress.progress,
+                          color: TColors.primary,
+                        ),
+                      ),
+                    );
+                  }),
                 ),
-              ), // Padding
-            ), // SizedBox
-    
+              ),
+            ),
+
             /// Image Slider
             Positioned(
               right: 0,
@@ -45,27 +61,37 @@ class ProductImageSlider extends StatelessWidget {
               child: SizedBox(
                 height: 80,
                 child: ListView.separated(
-                  itemCount: 6,
+                  itemCount: images.length,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: const AlwaysScrollableScrollPhysics(),
                   separatorBuilder: (_, __) =>
                       const SizedBox(width: TSizes.spaceBtwItems),
-                  itemBuilder: (context, index) => RoundedImage(
-                    width: 80,
-                    backgroundColor: dark ? TColors.dark : TColors.white,
-                    border: Border.all(color: TColors.primary),
-                    padding: const EdgeInsets.all(TSizes.sm),
-                    imageUrl: TImages.productImage3,
-                  ), // TRoundedImage
-                ), // ListView.separated
+                  itemBuilder: (context, index) => Obx(
+                    () {
+                      final imageSelected = controller.selectedProductImage.value == images[index];
+                      return RoundedImage(
+                      width: 80,
+                      isNetworkImage: true,
+                      backgroundColor: dark ? TColors.dark : TColors.white,
+                      border: Border.all(color: imageSelected ? TColors.primary : Colors.transparent),
+                      padding: const EdgeInsets.all(TSizes.sm),
+                      imageUrl: images[index],
+                      onPressed: () => controller.selectedProductImage.value = images[index],
+                    );
+                    } 
+                  ),
+                ),
               ),
-            ), // SizedBox
-    
+            ),
+
             const CustomAppBar(
               showBackArrow: true,
               actions: [
-                CircularIcon(icon: Iconsax.heart5, color: Colors.red,)
+                CircularIcon(
+                  icon: Iconsax.heart5,
+                  color: Colors.red,
+                )
               ],
             )
           ],

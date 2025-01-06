@@ -52,7 +52,7 @@ class RoundedImage extends StatelessWidget {
               ? CachedNetworkImage(
                   fit: fit,
                   imageUrl: imageUrl,
-                  progressIndicatorBuilder: (context, url, downloadProgress) => const CustomShimmerEffect(width: double.infinity, height: 190, radius: 16),
+                  progressIndicatorBuilder: (context, url, downloadProgress) => CustomShimmerEffect(width: width ?? double.infinity, height: height ?? 158, radius: 16),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
               : Image(

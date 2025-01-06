@@ -4,9 +4,11 @@ import 'package:ecommerce_no_shoppu/common/widgets/icons/circular_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/rounded_image.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_price_text.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_title.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/product/product_controller.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/product_details/product_details.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
-import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
+import 'package:ecommerce_no_shoppu/utils/constants/enums.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +16,23 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class ProductCardVertical extends StatelessWidget {
-  const ProductCardVertical({super.key});
+  const ProductCardVertical({super.key, required this.productModel});
+
+  final ProductModel productModel;
 
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
+    final controller = ProductController.instance;
+    final salePercentage = controller.calculateSalePercentage(productModel.price, productModel.salePrice);
+
+    print(productModel.thumbnail);  // Debugging the thumbnail URL
+
+
 
     /// Container with side paddings, color, edges, radius and shadow.
     return GestureDetector(
-      onTap: () => Get.to(() => const ProductDetailsScrenn()),
+      onTap: () => Get.to(() => ProductDetailsScrenn(productModel: productModel,)),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -42,10 +52,13 @@ class ProductCardVertical extends StatelessWidget {
               child: Stack(
                 children: [
                   /// Thumbnail Image
-                  RoundedImage(
-                      imageUrl: TImages.productImage1,
-                      applyImageRadius: true,
-                      backgroundColor: dark ? TColors.dark : TColors.light),
+                  Center(
+                    child: RoundedImage(
+                        imageUrl: productModel.thumbnail,
+                        applyImageRadius: true,
+                        isNetworkImage: true,
+                        backgroundColor: dark ? TColors.dark : TColors.light),
+                  ),
 
                   /// Sale Tag
                   Positioned(
@@ -56,7 +69,7 @@ class ProductCardVertical extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: TSizes.sm, vertical: TSizes.sm),
                       child: Text(
-                        '25%',
+                        '$salePercentage%',
                         style: Theme.of(context)
                             .textTheme
                             .labelLarge!
@@ -73,7 +86,6 @@ class ProductCardVertical extends StatelessWidget {
                         icon: Iconsax.heart5,
                         color: Colors.red,
                       )),
-
                 ],
               ),
             ),
@@ -87,15 +99,14 @@ class ProductCardVertical extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Product Title
-                  const ProductTitleText(
-                      title: 'Green Nike Air Shoes', smallSize: true),
+                  ProductTitleText(title: productModel.title, smallSize: true),
                   const SizedBox(height: TSizes.spaceBtwItems / 2),
 
                   // Brand Row
                   Row(
                     children: [
                       Text(
-                        'Nike',
+                        productModel.brand!.name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: Theme.of(context).textTheme.labelMedium,
@@ -115,13 +126,28 @@ class ProductCardVertical extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                /// Price
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: ProductPriceText(
-                    price: '35.0',
-                    isLarge: true,
-                  ),
+                /// Price Flexible
+                Column(
+                  children: [
+                    if (productModel.productType == ProductType.single.toString() && productModel.salePrice > 0)
+                      Padding(
+                        padding: const EdgeInsets.only(left: TSizes.sm),
+                        child: Text(
+                          productModel.price.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium!
+                              .apply(decoration: TextDecoration.lineThrough),
+                        ), // Text
+                      ), // Padding
+                
+                    /// Price, Show sale price as main price if sale exists.
+                    Padding(
+                      padding: const EdgeInsets.only(left: TSizes.sm),
+                      child: ProductPriceText(
+                          price: controller.getProductPrice(productModel)),
+                    ), // Padding
+                  ],
                 ),
 
                 // Add-to-Cart Button
@@ -139,8 +165,8 @@ class ProductCardVertical extends StatelessWidget {
                     child: Center(
                       child: Icon(Iconsax.add, color: TColors.white),
                     ), // Center
-                  ), 
-                ), 
+                  ),
+                ),
               ],
             ),
           ],
@@ -149,4 +175,3 @@ class ProductCardVertical extends StatelessWidget {
     );
   }
 }
-

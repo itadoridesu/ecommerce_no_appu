@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_no_shoppu/data/services/firebase_storage_services.dart';
-import 'package:ecommerce_no_shoppu/features/shop/models/brand_model.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/banner_model.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/firebase_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/format_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/platform_exception.dart';
