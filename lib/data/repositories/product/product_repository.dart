@@ -18,15 +18,12 @@ class ProductRepository extends GetxController {
   Future<List<ProductModel>> getFeaturedProducts() async {
     try {
       // Fetch all products (documents that are in the categories collection) from Firestore
-      final allDocuments = await _db
-          .collection('Products')
-          .get(); // You can add conditions 'where()' or limit the number 'limit(4)'
+      final allDocuments = await _db.collection('Products').limit(4).get(); // You can add conditions 'where()' or limit the number 'limit(4)'
 
       // Map each document snapshot to a ProductModel
-      final list = allDocuments.docs
-          .map((document) => ProductModel.fromSnapshot(document))
-          .toList();
+      final list = allDocuments.docs.map((document) => ProductModel.fromSnapshot(document)).toList();
       return list;
+
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on PlatformException catch (e) {
@@ -35,6 +32,47 @@ class ProductRepository extends GetxController {
       throw 'Something went wrong. Please try again';
     }
   }
+
+  /// Get all products
+  Future<List<ProductModel>> getAllProducts() async {
+    try {
+      // Fetch all products (documents that are in the categories collection) from Firestore
+      final allDocuments = await _db.collection('Products').get(); // You can add conditions 'where()' or limit the number 'limit(4)'
+
+      // Map each document snapshot to a ProductModel
+      final list = allDocuments.docs.map((document) => ProductModel.fromSnapshot(document)).toList();
+      return list;
+      
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
+  /// Get Products based on the Brand
+  Future<List<ProductModel>> fetchProductsByQuery(Query query) async {
+    try {
+      // Execute the query and fetch the snapshot
+      final querySnapshot = await query.get();  
+
+      // Map the snapshot documents to a list of ProductModel
+      final List<ProductModel> productList = querySnapshot.docs.map((doc) => ProductModel.fromQuerySnapshot(doc)).toList();  
+
+      return productList;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      // Catch any other exceptions and rethrow
+  }
+
+  throw 'Something went wrong. Please try again';
+}
+
 
   /// Get Sub Products
   /// Upload dummy data to the Cloud Firebase

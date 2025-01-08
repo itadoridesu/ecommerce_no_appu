@@ -34,6 +34,17 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<List<ProductModel>> fetchAllProducts() async {
+    try {
+      // Fetch Products
+      final products = await productRepository.getAllProducts();
+      return products;
+    } catch (e) {
+      TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
+      return [];
+    }
+  }
+
   /// get product price or price range for variations
   String getProductPrice(ProductModel product) {
     double smallestPrice = double.infinity;
@@ -41,12 +52,14 @@ class ProductController extends GetxController {
 
     // If no variations exist, return the simple price or sale price
     if (product.productType == ProductType.single.toString()) {
-      return (product.salePrice > 0 ? product.salePrice : product.price).toString();
+      return (product.salePrice > 0 ? product.salePrice : product.price)
+          .toString();
     } else {
       // Calculate the smallest and largest prices among variations
       for (var variation in product.productVariations!) {
         // Determine the price to consider (sale price if available, otherwise regular price)
-        double priceToConsider = variation.salePrice > 0.0 ? variation.salePrice : variation.price;
+        double priceToConsider =
+            variation.salePrice > 0.0 ? variation.salePrice : variation.price;
 
         // Update smallest and largest prices
         if (priceToConsider < smallestPrice) {

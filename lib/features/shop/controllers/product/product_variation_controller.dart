@@ -13,11 +13,9 @@ class VariationController extends GetxController {
       ProductVariationModel.empty().obs;
 
   /// -- Select Attribute, and Variation
-  void onAttributeSelected(
-      ProductModel product, attributeName, attributeValue) {
+  void onAttributeSelected(ProductModel product, attributeName, attributeValue) {
     // When attribute is selected, we will first add that attribute to the selectedAttributes
-    final selectedAttributes =
-        Map<String, dynamic>.from(this.selectedAttributes);
+    final selectedAttributes = Map<String, dynamic>.from(this.selectedAttributes);
     selectedAttributes[attributeName] = attributeValue;
     this.selectedAttributes[attributeName] = attributeValue;
 
@@ -74,8 +72,7 @@ class VariationController extends GetxController {
 
   /// -- Check Product Variation Stock Status
   void getProductVariationStockStatus() {
-    variationStockStatus.value =
-        selectedVariation.value.stock > 0 ? 'In Stock' : 'Out of Stock';
+    variationStockStatus.value = selectedVariation.value.stock > 0 ? 'In Stock' : 'Out of Stock';
   }
 
   /// Reset Selected Attributes when switching products

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/primary_header_cotainer.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/curved_edges/curved_edges.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/search_bar_container.dart';
@@ -60,13 +61,14 @@ class HomeScreen extends StatelessWidget {
                           height: TSizes.spaceBtwItems,
                         ),
                         HomeCategories(),
-
-                        SizedBox(height: TSizes.spaceBtwSections,)
+                        SizedBox(
+                          height: TSizes.spaceBtwSections,
+                        )
                       ],
                     ),
                   )
                 ],
-              )), // Container
+              )),
             ),
 
             Padding(
@@ -78,28 +80,45 @@ class HomeScreen extends StatelessWidget {
                     height: TSizes.spaceBtwSections,
                   ),
 
-                  SectionHeading(title: 'Popular Products', showActionButton: true, onPressed: () => Get.to(() => const AllProducts()),),
+                  SectionHeading(
+                    title: 'Popular Products',
+                    showActionButton: true,
+                    onPressed: () => Get.to(() => AllProducts(
+                          title: 'Popular Products',
+                          query: FirebaseFirestore.instance.collection('Products'),
+                          futureMehtod: controller.fetchAllProducts(),
+                        )),
+                  ),
 
-                  const SizedBox(height: TSizes.spaceBtwItems,),
+                  const SizedBox(
+                    height: TSizes.spaceBtwItems,
+                  ),
 
-                  /// -- Popular Products 
+                  /// -- Popular Products
                   Obx(() {
+                    if (controller.isLoading.value)
+                      return const VerticalProductShimmer();
 
-                    if(controller.isLoading.value) return const VerticalProductShimmer();
+                    if (controller.featuredProducts.isEmpty)
+                      return Center(
+                          child: Text(
+                        'No data found',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ));
 
-                    if(controller.featuredProducts.isEmpty) return Center(child: Text('No data found', style: Theme.of(context).textTheme.bodyMedium,));
-
-                    return GridLayout(itemCount: controller.featuredProducts.length, itemBuilder: (_, index) => ProductCardVertical(productModel: controller.featuredProducts[index]), mainAxisExtent: 288,);
-                  }), // GridView.builder
+                    return GridLayout(
+                      itemCount: controller.featuredProducts.length,
+                      itemBuilder: (_, index) => ProductCardVertical(
+                          productModel: controller.featuredProducts[index]),
+                      mainAxisExtent: 288,
+                    );
+                  }),
                 ],
               ),
             ),
-
-            // ClipPath
           ],
-        ), // Column
-      ), // SingleChildScrollView
+        ),
+      ),
     );
   }
 }
-

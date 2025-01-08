@@ -15,6 +15,7 @@ class VerticalProductShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridLayout(
       itemCount: itemCount,
+      mainAxisExtent: 288,
       itemBuilder: (_, __) => const SizedBox(
         width: 180,
         child: Column(
