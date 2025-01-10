@@ -41,7 +41,7 @@ class ProductDetailsScrenn extends StatelessWidget {
                   const RatingsAndShare(),
 
                   // Price, Title, Stack & Brand
-                  ProductMetaData(productModel: productModel,),
+                  ProductMetaData(productModel: productModel),
 
                   // Attributes
                   if(productModel.productType == ProductType.variable.toString()) ProductAttributes(productModel: productModel,),

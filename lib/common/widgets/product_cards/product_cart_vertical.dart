@@ -26,9 +26,6 @@ class ProductCardVertical extends StatelessWidget {
     final controller = ProductController.instance;
     final salePercentage = controller.calculateSalePercentage(productModel.price, productModel.salePrice);
 
-    print(productModel.thumbnail);  // Debugging the thumbnail URL
-
-
 
     /// Container with side paddings, color, edges, radius and shadow.
     return GestureDetector(
@@ -61,13 +58,13 @@ class ProductCardVertical extends StatelessWidget {
                   ),
 
                   /// Sale Tag
+                  if(salePercentage != null)
                   Positioned(
                     top: 12,
                     child: CircularContainer(
                       radius: TSizes.sm,
                       backgroundColor: TColors.secondary.withOpacity(0.8),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: TSizes.sm, vertical: TSizes.sm),
+                      padding: const EdgeInsets.symmetric(horizontal: TSizes.sm, vertical: TSizes.sm),
                       child: Text(
                         '$salePercentage%',
                         style: Theme.of(context)

@@ -25,29 +25,31 @@ class SortableProducts extends StatelessWidget {
     return Column(
       children: [
         /// Dropdown
-        DropdownButtonFormField(
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Iconsax.sort),
+        Obx(
+          () => DropdownButtonFormField(
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Iconsax.sort),
+            ),
+            dropdownColor: dark ? TColors.darkerGrey : TColors.grey,
+            value: controller.selectedSortOption.value,
+            onChanged: (value) {
+              controller.sortProducts(value!);
+            },
+            items: [
+              'Name',
+              'Higher Price',
+              'Lower Price',
+              'Sale',
+              'Newest',
+              'Popularity'
+             ].map(
+                  (option) => DropdownMenuItem(
+                    value: option,
+                    child: Text(option),
+                  ),
+                )
+                .toList(),
           ),
-          dropdownColor: dark ? TColors.darkerGrey : TColors.grey,
-          value: controller.selectedSortOption.value,
-          onChanged: (value) {
-            controller.sortProducts(value!);
-          },
-          items: [
-            'Name',
-            'Higher Price',
-            'Lower Price',
-            'Sale',
-            'Newest',
-            'Popularity'
-           ].map(
-                (option) => DropdownMenuItem(
-                  value: option,
-                  child: Text(option),
-                ),
-              )
-              .toList(),
         ), 
     
         const SizedBox(height: TSizes.spaceBtwSections),

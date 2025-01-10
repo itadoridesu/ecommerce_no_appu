@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/primary_header_cotainer.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/curved_edges/curved_edges.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/search_bar_container.dart';
@@ -85,7 +84,7 @@ class HomeScreen extends StatelessWidget {
                     showActionButton: true,
                     onPressed: () => Get.to(() => AllProducts(
                           title: 'Popular Products',
-                          query: FirebaseFirestore.instance.collection('Products'),
+                          //query: FirebaseFirestore.instance.collection('Products'),
                           futureMehtod: controller.fetchAllProducts(),
                         )),
                   ),
@@ -96,20 +95,19 @@ class HomeScreen extends StatelessWidget {
 
                   /// -- Popular Products
                   Obx(() {
-                    if (controller.isLoading.value)
-                      return const VerticalProductShimmer();
+                    if (controller.isLoading.value) return const VerticalProductShimmer();
 
-                    if (controller.featuredProducts.isEmpty)
+                    if (controller.featuredProducts.isEmpty){
                       return Center(
                           child: Text(
                         'No data found',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ));
+                    }
 
                     return GridLayout(
                       itemCount: controller.featuredProducts.length,
-                      itemBuilder: (_, index) => ProductCardVertical(
-                          productModel: controller.featuredProducts[index]),
+                      itemBuilder: (_, index) => ProductCardVertical(productModel: controller.featuredProducts[index]),
                       mainAxisExtent: 288,
                     );
                   }),

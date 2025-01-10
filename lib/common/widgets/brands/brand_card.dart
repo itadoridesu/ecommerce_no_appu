@@ -1,9 +1,9 @@
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/circular_container.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/circular_image.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/brand_title_with_verification.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/brand_model.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/enums.dart';
-import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +20,12 @@ class BrandCard extends StatelessWidget {
     super.key,
     required this.showBorder,
     this.onTap,
+    required this.brand
   });
 
   final bool showBorder;
   final void Function()? onTap;
+  final BrandModel brand;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +45,9 @@ class BrandCard extends StatelessWidget {
             /// -- Icon
             Flexible(
               child: CircularImage(
-                image: TImages.clothIcon,
-                isNetworkImage: false,
+                fit: BoxFit.contain,
+                image: brand.image,
+                isNetworkImage: true,
                 backgroundColor: Colors.transparent,
                 overlayColor: isDark ? TColors.white : TColors.black,
               ),
@@ -59,9 +62,9 @@ class BrandCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const BrandTitleWithVerification(title: 'Nike', brandTextSize: TextSizes.large),
+                  BrandTitleWithVerification(title: brand.name, brandTextSize: TextSizes.large),
                   Text(
-                    '256 products',
+                    '${brand.productsCount ?? 0} products',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),

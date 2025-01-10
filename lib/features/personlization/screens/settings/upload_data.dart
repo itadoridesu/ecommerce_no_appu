@@ -22,6 +22,18 @@ class UploadDataScreen extends StatelessWidget {
     // final products = ADummyData.products;
     // final productController = Get.put(ProductRepository());
 
+    /// Brands
+    // final brands = ADummyData.brandList;
+    // final brandController = Get.put(BrandRepository());
+
+    /// Brand Categories
+    // final brandCategories = ADummyData.brandCategories;
+    // final bcController = Get.put(BrandRepository());
+
+    /// Product Categories
+    // final productCategories = ADummyData.productCategories;
+    // final pcController = Get.put(ProductRepository());
+
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Upload Dummy Data',
@@ -52,7 +64,13 @@ class UploadDataScreen extends StatelessWidget {
                   DummyDataTile(
                     icon: Iconsax.shop,
                     title: 'Upload Brands',
-                    onPressed: () {},
+                    onPressed: () {
+                      // try {
+                      //  brandController.uploadDummyData(brands);
+                      // } catch (e) {
+                      //   print("Error uploading brand data: $e");
+                      // }
+                    },
                   ),
                   DummyDataTile(
                     icon: Iconsax.shopping_bag,
@@ -90,12 +108,16 @@ class UploadDataScreen extends StatelessWidget {
                   DummyDataTile(
                     icon: Iconsax.attach_circle,
                     title: 'Upload Brands & Categories Relation Data',
-                    onPressed: () {},
+                    onPressed: () {
+                      // bcController.uploadBrandCategories(brandCategories);
+                    },
                   ),
                   DummyDataTile(
                     icon: Iconsax.attach_circle,
                     title: 'Upload Products & Categories Relation Data',
-                    onPressed: () {},
+                    onPressed: () {
+                      // pcController.uploadProductCategories(productCategories);
+                    },
                   ),
                 ],
               ),

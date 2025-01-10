@@ -1,5 +1,7 @@
 import 'package:ecommerce_no_shoppu/data/repositories/categories/category_repository.dart';
+import 'package:ecommerce_no_shoppu/data/repositories/product/product_repository.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/category_model.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/utils/popups/loader.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +13,7 @@ class CategoryController extends GetxController {
 
   RxList<CategoryModel> allCategories = <CategoryModel>[].obs;
   RxList<CategoryModel> featuredCategories = <CategoryModel>[].obs;
-  
+
   @override
   void onInit() {
     super.onInit();
@@ -21,7 +23,6 @@ class CategoryController extends GetxController {
   /// -- Load category data
   Future<void> fetchCategories() async {
     try {
-
       // Show Loader while loading categories
       isLoading.value = true;
 
@@ -32,14 +33,23 @@ class CategoryController extends GetxController {
       allCategories.assignAll(categories);
 
       // Filter featured categories
-      featuredCategories.assignAll(allCategories.where((category) => category.isFeatured && category.parentId.isEmpty).take(8).toList());
-
+      featuredCategories.assignAll(allCategories
+          .where((category) => category.isFeatured && category.parentId.isEmpty)
+          .take(8)
+          .toList());
     } catch (e) {
       TLoaders.errorSnackBar(title: 'Oh Snap!', message: e.toString());
-
     } finally {
       isLoading.value = false;
     }
   }
-}
 
+  /// Get Category or Sub-Category Products.
+  Future<List<ProductModel>> getCategoryProducts({
+    required String categoryId,
+    int limit = 4, // Fetch limited (4) products against each subCategory
+  }) async {
+    final products = await ProductRepository.instance.getProductsForCategory(categoryId: categoryId, limit: limit);
+    return products;
+  }
+}

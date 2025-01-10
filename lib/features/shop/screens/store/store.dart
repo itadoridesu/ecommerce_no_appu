@@ -4,7 +4,9 @@ import 'package:ecommerce_no_shoppu/common/widgets/cart/cart_menu_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/search_bar_container.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/layouts/grid_layout.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/brands/brand_card.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/shimmers/brand_shimmer.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/section_heading.dart';
+import 'package:ecommerce_no_shoppu/features/shop/controllers/brand_controller.dart';
 import 'package:ecommerce_no_shoppu/features/shop/controllers/category_controller.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/brand/all_brands.dart';
 import 'package:ecommerce_no_shoppu/features/shop/screens/store/widgets/category_tab.dart';
@@ -21,6 +23,7 @@ class StoreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final categories = CategoryController.instance.featuredCategories;
+    final brandController = Get.put(BrandController());
 
     return DefaultTabController(
       length: categories.length,
@@ -59,21 +62,36 @@ class StoreScreen extends StatelessWidget {
                       ),
                       SectionHeading(
                         title: 'Feature Brands',
-                        onPressed: () {},
+                        onPressed: () => Get.to(() => const AllBrandsScreen()),
                         showActionButton: true,
                       ),
                       const SizedBox(
                         height: TSizes.spaceBtwItems,
                       ),
-                      GridLayout(
-                          itemCount: 4,
-                          mainAxisExtent: 80,
-                          itemBuilder: (_, index) {
-                            return BrandCard(
-                              showBorder: true,
-                              onTap: () => Get.to(() => const AllBrandsScreen()),
-                            );
-                          })
+
+                        Obx(
+                        () {
+
+                          if(brandController.isLoading.value) return const BrandsShimmer(); 
+
+                          if(brandController.featuredBrands.isEmpty) {
+                            return Center(child: Text('No Data Found desu yo!', style: Theme.of(context).textTheme.bodyMedium,),);
+                          }
+                          
+                          return GridLayout(
+                            itemCount: brandController.featuredBrands.length,
+                            mainAxisExtent: 80,
+                            itemBuilder: (_, index) {
+                              final brand = brandController.featuredBrands[index];
+                              return BrandCard(
+                                brand: brand,
+                                showBorder: true,
+                                onTap: () => Get.to(() => const AllBrandsScreen()),
+                              );
+                            });
+
+                        } ,
+                      )
                     ],
                   ),
                 ),

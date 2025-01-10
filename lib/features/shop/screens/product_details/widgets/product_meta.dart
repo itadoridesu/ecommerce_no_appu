@@ -19,75 +19,100 @@ class ProductMetaData extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final dark = THelperFunctions.isDarkMode(context);
-  final controller = ProductController.instance;
-  final salesPercentage = controller.calculateSalePercentage(productModel.price, productModel.salePrice);
+    final dark = THelperFunctions.isDarkMode(context);
+    final controller = ProductController.instance;
+    final salesPercentage = controller.calculateSalePercentage(productModel.price, productModel.salePrice);
 
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      /// Price & Sale Price
-      Row(
-        children: [
-          /// Sale Tag
-          CircularContainer(
-            radius: TSizes.sm,
-            backgroundColor: TColors.secondary.withOpacity(0.8),
-            padding: const EdgeInsets.symmetric(
-              horizontal: TSizes.sm,
-              vertical: TSizes.xs,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// Price & Sale Price
+        Row(
+          children: [
+            /// Sale Tag
+            CircularContainer(
+              radius: TSizes.sm,
+              backgroundColor: TColors.secondary.withOpacity(0.8),
+              padding: const EdgeInsets.symmetric(
+                horizontal: TSizes.sm,
+                vertical: TSizes.xs,
+              ),
+              child: Text(
+                '$salesPercentage%',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelLarge!
+                    .apply(color: TColors.black),
+              ),
+            ), // TRoundedContainer
+            const SizedBox(width: TSizes.spaceBtwItems),
+
+            /// Price
+            if (productModel.productType == ProductType.single.toString() &&
+                productModel.salePrice > 0)
+              Text(
+                '\$${controller.getProductPrice(productModel)}',
+                style: Theme.of(context).textTheme.titleSmall!.apply(
+                      decoration: TextDecoration.lineThrough,
+                    ),
+              ),
+            if (productModel.productType == ProductType.single.toString() &&
+                productModel.salePrice > 0)
+              const SizedBox(width: TSizes.spaceBtwItems),
+
+            /// Discounted Price
+            ProductPriceText(
+                price: controller.getProductPrice(productModel), isLarge: true),
+          ],
+        ), // Row
+        const SizedBox(height: TSizes.spaceBtwItems / 1.5),
+
+        // Title
+        ProductTitleText(
+          title: productModel.title,
+        ),
+        const SizedBox(
+          height: TSizes.spaceBtwItems / 2,
+        ),
+
+        // Stack Status
+        Row(
+          children: [
+            const ProductTitleText(
+              title: 'Status',
             ),
-            child: Text(
-              '$salesPercentage%',
-              style: Theme.of(context)
-                  .textTheme
-                  .labelLarge!
-                  .apply(color: TColors.black),
+            const SizedBox(width: TSizes.spaceBtwItems),
+            Text(
+              controller.getProductStockStatus(productModel.stock),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
-          ), // TRoundedContainer
-          const SizedBox(width: TSizes.spaceBtwItems),
+          ],
+        ),
+        const SizedBox(
+          height: TSizes.spaceBtwItems / 2,
+        ),
 
-          /// Price
-          if(productModel.productType == ProductType.single.toString() && productModel.salePrice > 0)
-          Text('\$${controller.getProductPrice(productModel)}',style: Theme.of(context).textTheme.titleSmall!.apply(decoration: TextDecoration.lineThrough,),),
-          if(productModel.productType == ProductType.single.toString() && productModel.salePrice > 0) 
-          const SizedBox(width: TSizes.spaceBtwItems),
-
-          /// Discounted Price
-          ProductPriceText(price: controller.getProductPrice(productModel), isLarge: true),
-        ],
-      ), // Row
-      const SizedBox(height: TSizes.spaceBtwItems / 1.5),
-
-      // Title
-      ProductTitleText(title: productModel.title,),
-      const SizedBox(height: TSizes.spaceBtwItems / 2,),
-
-      // Stack Status
-      Row(
-        children: [
-          const ProductTitleText(title: 'Status',),
-          const SizedBox(width: TSizes.spaceBtwItems),
-          Text(controller.getProductStockStatus(productModel.stock), style: Theme.of(context).textTheme.titleMedium,),
-
-        ],
-      ),
-      const SizedBox(height: TSizes.spaceBtwItems / 2,),
-
-      // Brand
-      Row(
-        children: [
-          CircularImage(
-            image: TImages.clothIcon,
-            height: 32,
-            width: 32,
-            overlayColor: dark ? TColors.white : TColors.black,
+        // Brand
+        Row(
+          children: [
+            CircularImage(
+              fit: BoxFit.contain,
+              image: productModel.brand != null
+                  ? productModel.brand!.image
+                  : TImages.clothIcon,
+              height: 32,
+              width: 32,
+              overlayColor: dark ? TColors.white : TColors.black,
+              isNetworkImage: true,
             ),
-          BrandTitleWithVerification(title: productModel.brand != null ? productModel.brand!.name : '', brandTextSize: TextSizes.medium),
-        ],
-      )
-    ],
-
-  );
- }
+            BrandTitleWithVerification(
+                title: productModel.brand != null
+                    ? productModel.brand!.name
+                    : '',
+                brandTextSize: TextSizes.medium),
+          ],
+        )
+      ],
+    );
+  }
 }

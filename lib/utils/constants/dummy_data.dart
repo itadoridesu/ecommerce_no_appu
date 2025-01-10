@@ -1,9 +1,11 @@
 import 'package:ecommerce_no_shoppu/features/shop/models/banner_model.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/brand_category_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/brand_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/category_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/product/product_attributes_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/product/product_variation_model.dart';
+import 'package:ecommerce_no_shoppu/features/shop/models/product_category_model.dart';
 import 'package:ecommerce_no_shoppu/routes/routes.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/image_strings.dart';
 
@@ -252,7 +254,7 @@ class ADummyData {
         ProductAttributeModel(name: 'Size', values: ['EU34', 'EU32']),
         ProductAttributeModel(name: 'Color', values: ['Green', 'Red', 'Blue']),
       ],
-      productType: 'ProductType.single', 
+      productType: 'ProductType.single',
     ),
     ProductModel(
       id: '005',
@@ -311,7 +313,105 @@ class ADummyData {
           attributeValues: {'Color': 'Brown', 'Size': 'EU 34'},
         ),
       ],
-      productType: 'ProductType.variable', 
+      productType: 'ProductType.variable',
     ),
   ];
+
+  static final List<BrandModel> brandList = [
+    BrandModel(
+      id: '1',
+      name: 'Nike',
+      image: TImages.nikeLogo,
+      isFeatured: true,
+      productsCount: 120,
+    ),
+    BrandModel(
+      id: '2',
+      name: 'Adidas',
+      image: TImages.adidasLogo,
+      isFeatured: false,
+      productsCount: 95,
+    ),
+    BrandModel(
+      id: '3',
+      name: 'Apple',
+      image: TImages.appleLogo,
+      isFeatured: true,
+      productsCount: 75,
+    ),
+    BrandModel(
+      id: '4',
+      name: 'Jordan',
+      image: TImages.jordanLogo,
+      isFeatured: true,
+      productsCount: 60,
+    ),
+    BrandModel(
+      id: '5',
+      name: 'Puma',
+      image: TImages.pumaLogo,
+      isFeatured: false,
+      productsCount: 80,
+    ),
+    BrandModel(
+      id: '6',
+      name: 'Zara',
+      image: TImages.zaraLogo,
+      isFeatured: false,
+      productsCount: 50,
+    ),
+    BrandModel(
+      id: '7',
+      name: 'Kenwood',
+      image: TImages.kenwoodLogo,
+      isFeatured: true,
+      productsCount: 40,
+    ),
+    BrandModel(
+      id: '8',
+      name: 'Herman Miller',
+      image: TImages.hermanMillerLogo,
+      isFeatured: false,
+      productsCount: 25,
+    ),
+    BrandModel(
+      id: '9',
+      name: 'Ikea',
+      image: TImages.ikeaLogo,
+      isFeatured: true,
+      productsCount: 100,
+    ),
+    BrandModel(
+      id: '10',
+      name: 'Acer',
+      image: TImages.acerlogo,
+      isFeatured: false,
+      productsCount: 30,
+    ),
+  ];
+
+  static final List<BrandCategoryModel> brandCategories = [
+  // Sports (Category ID: 1)
+  BrandCategoryModel(brandId: '1', categoryId: '1'), // Nike
+  BrandCategoryModel(brandId: '2', categoryId: '1'), // Adidas
+  BrandCategoryModel(brandId: '4', categoryId: '1'), // Jordan
+
+  // Electronics (Category ID: 2)
+  BrandCategoryModel(brandId: '3', categoryId: '2'), // Apple
+
+  // Clothes (Category ID: 3)
+  BrandCategoryModel(brandId: '6', categoryId: '3'), // Zara
+];
+
+
+  static final List<ProductCategoryModel> productCategories = [
+    ProductCategoryModel(productId: '001', categoryId: '1'),
+    ProductCategoryModel(productId: '002', categoryId: '3'), 
+    ProductCategoryModel(productId: '003', categoryId: '3'), 
+    ProductCategoryModel(productId: '004', categoryId: '2'), 
+    ProductCategoryModel(productId: '005', categoryId: '8'), 
+    ProductCategoryModel(productId: '006', categoryId: '3'), 
+    ProductCategoryModel(productId: '007', categoryId: '6'), 
+];
+
 }

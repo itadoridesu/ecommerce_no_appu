@@ -31,15 +31,19 @@ class AllProducts extends StatelessWidget {
           child: FutureBuilder(
               future: futureMehtod ?? controller.fetchProductsByQuery(query),
               builder: (context, snapshot) {
-                // Check the state of the futureBuilder snapshot
-                const loader = VerticalProductShimmer();
-                final widget = TCloudHelperFunctions.checkMultiRecordState(snapshot: snapshot, loader: loader); 
                 
-                if(widget != null) return widget;
+                final int loaderCount = snapshot.data?.length ?? 4;
+
+                // Check the state of the futureBuilder snapshot
+                final widget = TCloudHelperFunctions.checkMultiRecordState(
+                    snapshot: snapshot,
+                    loader: VerticalProductShimmer(itemCount: loaderCount));
+
+                if (widget != null) return widget;
 
                 // If data is available, display the products
                 final products = snapshot.data!;
-                return SortableProducts(products: products,);
+                return SortableProducts(products: products);
               }),
         ),
       ),
