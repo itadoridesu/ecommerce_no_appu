@@ -1,7 +1,7 @@
 import 'package:get_storage/get_storage.dart';
 
 // This class manages local storage using the GetStorage package.
-// It follows the Singleton design pattern to ensure only one instance of the class is ever created.
+// It follows the Singleton design pattern to ensure only one instance of the class is ever created
 class TLocalStorage {
   
   // This declares a variable that will hold an instance of GetStorage.
@@ -92,4 +92,3 @@ class TLocalStorage {
 //
 // // Clear all data
 // localStorage.clearAll();
-
