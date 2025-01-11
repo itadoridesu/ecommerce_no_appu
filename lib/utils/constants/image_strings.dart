@@ -130,6 +130,8 @@ class TImages {
   static const String productImage77= "assets/images/products/slipper-product.png";
 
 
+  static const String pencilAnimation = "assets/images/animations/140429-pencil-drawing.json";
+
 
 
   // -- Product Reviews

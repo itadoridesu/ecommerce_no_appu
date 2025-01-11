@@ -1,7 +1,7 @@
 import 'package:ecommerce_no_shoppu/common/styles/shadow.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/circular_container.dart';
-import 'package:ecommerce_no_shoppu/common/widgets/icons/circular_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/rounded_image.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/product_cards/favorite_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_price_text.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_title.dart';
 import 'package:ecommerce_no_shoppu/features/shop/controllers/product/product_controller.dart';
@@ -76,13 +76,10 @@ class ProductCardVertical extends StatelessWidget {
                   ),
 
                   /// Heart Icon
-                  const Positioned(
+                  Positioned(
                       right: 0,
                       top: 2,
-                      child: CircularIcon(
-                        icon: Iconsax.heart5,
-                        color: Colors.red,
-                      )),
+                      child: FavoriteIcon(productId: productModel.id,)),
                 ],
               ),
             ),
@@ -172,3 +169,5 @@ class ProductCardVertical extends StatelessWidget {
     );
   }
 }
+
+

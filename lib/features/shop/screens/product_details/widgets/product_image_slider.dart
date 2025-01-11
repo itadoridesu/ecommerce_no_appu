@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/app_bar/appbar.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/curved_edges/curved_edges.dart';
-import 'package:ecommerce_no_shoppu/common/widgets/icons/circular_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/rounded_image.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/product_cards/favorite_icon.dart';
 import 'package:ecommerce_no_shoppu/features/shop/controllers/product/image_controller.dart';
 import 'package:ecommerce_no_shoppu/features/shop/models/product/product_model.dart';
 import 'package:ecommerce_no_shoppu/utils/constants/colors.dart';
@@ -10,7 +10,6 @@ import 'package:ecommerce_no_shoppu/utils/constants/sizes.dart';
 import 'package:ecommerce_no_shoppu/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class ProductImageSlider extends StatelessWidget {
   const ProductImageSlider({super.key, required this.productModel});
@@ -85,13 +84,10 @@ class ProductImageSlider extends StatelessWidget {
               ),
             ),
 
-            const CustomAppBar(
+            CustomAppBar(
               showBackArrow: true,
               actions: [
-                CircularIcon(
-                  icon: Iconsax.heart5,
-                  color: Colors.red,
-                )
+                FavoriteIcon(productId: productModel.id,)
               ],
             )
           ],

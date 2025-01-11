@@ -40,11 +40,11 @@ class CircularIcon extends StatelessWidget {
                 ? TColors.black.withOpacity(0.9)
                 : TColors.white.withOpacity(0.9)),
         borderRadius: BorderRadius.circular(100),
-      ), // BoxDecoration
+      ), 
       child: IconButton(
         onPressed: onPressed,
         icon: Icon(icon, color: color, size: size),
-      ), // IconButton
-    ); // Container
+      ), 
+    ); 
   }
 }

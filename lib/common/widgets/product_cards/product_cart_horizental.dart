@@ -1,6 +1,6 @@
 import 'package:ecommerce_no_shoppu/common/widgets/custom_shapes/containers/circular_container.dart';
-import 'package:ecommerce_no_shoppu/common/widgets/icons/circular_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/images/rounded_image.dart';
+import 'package:ecommerce_no_shoppu/common/widgets/product_cards/favorite_icon.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/brand_title_with_verification.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_price_text.dart';
 import 'package:ecommerce_no_shoppu/common/widgets/texts/product_title.dart';
@@ -68,12 +68,7 @@ class ProductCartHorizental extends StatelessWidget {
                 const Positioned(
                     right: 2,
                     top: 2,
-                    child: CircularIcon(
-                      icon: Iconsax.heart5,
-                      color: Colors.red,
-                      height: 40,
-                      width: 40,
-                    )),
+                    child: FavoriteIcon(productId: '',)),
               ],
             ),
           ),

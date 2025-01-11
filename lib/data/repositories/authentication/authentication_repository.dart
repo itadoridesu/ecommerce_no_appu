@@ -7,6 +7,7 @@ import 'package:ecommerce_no_shoppu/features/authentication/screens/login/login.
 import 'package:ecommerce_no_shoppu/features/authentication/screens/on_boarding/on_boarding.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/format_exception.dart';
 import 'package:ecommerce_no_shoppu/utils/exceptions/platform_exception.dart';
+import 'package:ecommerce_no_shoppu/utils/local_storage/storage_utility.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -38,6 +39,9 @@ class AuthenticationRepository extends GetxController {
 
     if (user != null) {
       if (user.emailVerified) {
+
+        await TLocalStorage.init(user.uid);
+
         Get.offAll(() => const NavigationMenu());
       } else {
         Get.offAll(() => VerifyEmailScreen(
