@@ -39,7 +39,7 @@ class CategoryTab extends StatelessWidget {
                     categoryId: categoryModel.id),
                 builder: (context, snapshot) {
                   final widget = TCloudHelperFunctions.checkMultiRecordState(
-                      snapshot: snapshot, loader: VerticalProductShimmer());
+                      snapshot: snapshot, loader: const VerticalProductShimmer());
                   if (widget != null) return widget;
 
                   final products = snapshot.data!;

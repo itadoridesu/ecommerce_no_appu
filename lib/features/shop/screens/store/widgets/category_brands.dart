@@ -64,3 +64,4 @@ class CategoryBrands extends StatelessWidget {
         });
   }
 }
+
